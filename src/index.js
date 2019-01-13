@@ -2,24 +2,49 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
 
-const Welcome = (props) => {
-  return <li className="collection-item">Hello {props.name}</li>
-}
 
-const App = () => {
-  return (
-    <div className="container">
-      <ul class="collection">
-        <Welcome name="Mauricio Renero"/>
-        <Welcome name="Claudia Quintana"/>
-      </ul>
+function FormatDate(props){
+  return(
+    <div>
+      <div>
+        <h1>Hello, world!</h1>
+        <h2>It is {props.date.toLocaleTimeString()}</h2>
+      </div>
     </div>
   )
 }
 
-const element = <App></App>
+class Clock extends React.Component{
+  constructor(props){
+    super(props)
+    this.state = { date: new Date() }
+  }
+
+  componentDidMount(){
+    this.timerID = setInterval(
+      () => this.tick(),
+      1000
+    )
+  }
+
+  componentWillUnmount(){
+    clearInterval(this.timerID)
+  }
+
+  tick(){
+    this.setState({
+      date: new Date()
+    })
+  }
+
+  render(){
+    return(
+      <FormatDate date={this.state.date}/>
+    )
+  }
+}
 
 ReactDOM.render(
-  element,
+  <Clock/>,
   document.getElementById('root')
-)
+);
