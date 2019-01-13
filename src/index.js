@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.unregister();
+let formatName = name => {
+  return name.toUpperCase();
+} 
+const name = 'Mauricio Renero';
+const element = <div className="waves-effect waves-light btn">Hello {formatName(name)}</div>
+ReactDOM.render(
+  element,
+  document.getElementById('root')
+);
