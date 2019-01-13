@@ -3,10 +3,21 @@ import ReactDOM from 'react-dom'
 import './index.css'
 
 const Welcome = (props) => {
-  return <h1>Hello {props.name}</h1>
+  return <li className="collection-item">Hello {props.name}</li>
 }
 
-const element = <Welcome name="Mauricio Renero"></Welcome>
+const App = () => {
+  return (
+    <div className="container">
+      <ul class="collection">
+        <Welcome name="Mauricio Renero"/>
+        <Welcome name="Claudia Quintana"/>
+      </ul>
+    </div>
+  )
+}
+
+const element = <App></App>
 
 ReactDOM.render(
   element,
