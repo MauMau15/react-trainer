@@ -2,32 +2,81 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
 
+function Welcome(props){
+  return <span className="card-title">Welcome back!</span>
+}
 
-class Toggle extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {isToggleOn: true};
+function Sign(props){
+  return <span className="card-title">Please, sign in</span>
+}
 
-    // This binding is necessary to make `this` work in the callback
-    this.handleClick = this.handleClick.bind(this);
+function Greeting(props) {
+  const isLoggedIn = props.isLoggedIn;
+  if (isLoggedIn) {
+    return <Welcome />;
+  }
+  return <Sign />;
+}
+
+function LoginButton(props){
+  return(
+    <button className="waves-effect waves-light btn blue darken-4 z-depth-3" onClick={props.onClick}>
+      Login
+    </button>
+  )
+}
+
+function LogoutButton(props){
+  return(
+    <button className="waves-effect waves-light btn blue darken-4 z-depth-3" onClick={props.onClick}>
+      Logout
+    </button>
+  )
+}
+
+class LoginControll extends React.Component{
+  constructor(props){
+    super(props)
+    this.handleLoggedIn = this.handleLoggedIn.bind(this)
+    this.handleLoggedOut = this.handleLoggedOut.bind(this)
+    this.state = {
+      isLoggedIn: false
+    }
   }
 
-  handleClick() {
-    this.setState(state => ({
-      isToggleOn: !state.isToggleOn
-    }));
+  handleLoggedIn(){
+    this.setState({
+      isLoggedIn: true
+    })
   }
 
-  render() {
-    return (
-      <button onClick={this.handleClick} className="btn-floating btn-large waves-effect waves-light red">
-        {this.state.isToggleOn ? 'ON' : 'OFF'}
-      </button>
-    );
+  handleLoggedOut(){
+    this.setState({
+      isLoggedIn: false
+    })
+  }
+
+  render(){
+    const isLoggedIn = this.state.isLoggedIn
+    let button
+
+    if (isLoggedIn) {
+      button = <LogoutButton onClick={this.handleLoggedOut}></LogoutButton>
+    }else{
+      button = <LoginButton onClick={this.handleLoggedIn}></LoginButton>
+    }
+    return(
+      <div className="card blue darken-1 z-depth-5">
+        <div className="card-content white-text">
+          <Greeting isLoggedIn={isLoggedIn}/>
+          {button}
+        </div>
+      </div>
+    )
   }
 }
 
 ReactDOM.render(
-  <Toggle />,
+  <LoginControll/>,
   document.getElementById('root')
-);
+)
