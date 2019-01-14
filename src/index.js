@@ -3,48 +3,31 @@ import ReactDOM from 'react-dom'
 import './index.css'
 
 
-function FormatDate(props){
-  return(
-    <div>
-      <div>
-        <h1>Hello, world!</h1>
-        <h2>It is {props.date.toLocaleTimeString()}</h2>
-      </div>
-    </div>
-  )
-}
+class Toggle extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {isToggleOn: true};
 
-class Clock extends React.Component{
-  constructor(props){
-    super(props)
-    this.state = { date: new Date() }
+    // This binding is necessary to make `this` work in the callback
+    this.handleClick = this.handleClick.bind(this);
   }
 
-  componentDidMount(){
-    this.timerID = setInterval(
-      () => this.tick(),
-      1000
-    )
+  handleClick() {
+    this.setState(state => ({
+      isToggleOn: !state.isToggleOn
+    }));
   }
 
-  componentWillUnmount(){
-    clearInterval(this.timerID)
-  }
-
-  tick(){
-    this.setState({
-      date: new Date()
-    })
-  }
-
-  render(){
-    return(
-      <FormatDate date={this.state.date}/>
-    )
+  render() {
+    return (
+      <button onClick={this.handleClick} className="btn-floating btn-large waves-effect waves-light red">
+        {this.state.isToggleOn ? 'ON' : 'OFF'}
+      </button>
+    );
   }
 }
 
 ReactDOM.render(
-  <Clock/>,
+  <Toggle />,
   document.getElementById('root')
 );
