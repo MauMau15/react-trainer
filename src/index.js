@@ -2,81 +2,51 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
 
-function Welcome(props){
-  return <span className="card-title">Welcome back!</span>
-}
-
-function Sign(props){
-  return <span className="card-title">Please, sign in</span>
-}
-
-function Greeting(props) {
-  const isLoggedIn = props.isLoggedIn;
-  if (isLoggedIn) {
-    return <Welcome />;
-  }
-  return <Sign />;
-}
-
-function LoginButton(props){
-  return(
-    <button className="waves-effect waves-light btn blue darken-4 z-depth-3" onClick={props.onClick}>
-      Login
-    </button>
-  )
-}
-
-function LogoutButton(props){
-  return(
-    <button className="waves-effect waves-light btn blue darken-4 z-depth-3" onClick={props.onClick}>
-      Logout
-    </button>
-  )
-}
-
-class LoginControll extends React.Component{
+class LoginForm extends React.Component{
   constructor(props){
     super(props)
-    this.handleLoggedIn = this.handleLoggedIn.bind(this)
-    this.handleLoggedOut = this.handleLoggedOut.bind(this)
     this.state = {
-      isLoggedIn: false
+      userName: '',
+      password: ''
     }
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleChange = this.handleChange.bind(this)
   }
 
-  handleLoggedIn(){
+  handleChange(event){
+    const target = event.target
+    const value = target.value
+    const name = target.name
     this.setState({
-      isLoggedIn: true
+      [name]: value
     })
   }
 
-  handleLoggedOut(){
-    this.setState({
-      isLoggedIn: false
-    })
+  handleSubmit(event){
+    console.log('userName: '+ this.state.userName)
+    console.log('password: '+ this.state.password)
+    event.preventDefault();
   }
 
   render(){
-    const isLoggedIn = this.state.isLoggedIn
-    let button
-
-    if (isLoggedIn) {
-      button = <LogoutButton onClick={this.handleLoggedOut}></LogoutButton>
-    }else{
-      button = <LoginButton onClick={this.handleLoggedIn}></LoginButton>
-    }
     return(
-      <div className="card blue darken-1 z-depth-5">
-        <div className="card-content white-text">
-          <Greeting isLoggedIn={isLoggedIn}/>
-          {button}
-        </div>
+      <div className="card-panel hoverable login green lighten-5 white-text z-depth-5">
+        <form className="row" onSubmit={this.handleSubmit}>
+          <div className="input-field col s12">
+            <input type="text" className="validate" name="userName" value={this.state.userName} onChange={this.handleChange}></input>
+            <label>User Name</label>
+          </div>
+          <div className="input-field col s12">
+            <input type="password" className="validate" name="password" value={this.state.password} onChange={this.handleChange}></input>
+            <label>Password</label>
+          </div>
+          <input className="btn waves-effect waves-light z-depth-4" type="submit" value="Submit" />
+        </form>
       </div>
     )
   }
 }
-
 ReactDOM.render(
-  <LoginControll/>,
+  <LoginForm/>,
   document.getElementById('root')
 )
